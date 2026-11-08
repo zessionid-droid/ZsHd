@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ZsHd — HD / 4K / 8K / 16K</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #f3ede2;
+    --ink: #1a1a1a;
+    --accent: #b5452f;
+    --accent-soft: #e8d5c4;
+    --sage: #7a8b6f;
+    --card: #fbf7f0;
+    --line: #1a1a1a;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-sm: 4px 4px 0 var(--ink);
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    background-color: var(--cream);
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 39px, rgba(26,26,26,0.06) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(26,26,26,0.06) 39px 40px);
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    padding: 20px 14px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== HOME ===== */
+  #homeScreen {
+    max-width: 680px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+  }
+
+  .brand-mark {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  #homeScreen h1 {
+    font-size: clamp(2.4rem, 9vw, 4.2rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  #homeScreen h1 span {
+    display: block;
+    color: var(--accent);
+  }
+
+  .tagline {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.8;
+    margin: 22px auto 36px;
+    max-width: 480px;
+    color: #444;
+  }
+
+  .hero-card {
+    background: var(--card);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 36px 24px;
+    margin-bottom: 32px;
+  }
+
+  .feature-list {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 2.1;
+    color: var(--ink);
+    list-style: none;
+  }
+  .feature-list li::before {
+    content: "— ";
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .start-btn {
+    display: inline-block;
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .start-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .home-foot {
+    margin-top: 28px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #777;
+  }
+
+  /* ===== APP SCREEN ===== */
+  #appScreen {
+    display: none;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .app-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .app-topbar h2 {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .back-btn {
+    background: transparent;
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    padding: 10px 18px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+
+  /* ===== PREVIEW ===== */
+  .preview-shell {
+    background: var(--card);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 14px;
+    margin-bottom: 22px;
+  }
+
+  .preview-frame {
+    position: relative;
+    background: #e9e2d6;
+    border: 2px solid var(--line);
+    min-height: 220px;
+    max-height: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+
+  #imagePreview {
+    max-width: 100%;
+    max-height: 356px;
+    object-fit: contain;
+    display: none;
+  }
+
+  .zoom-note {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3px 8px;
+    pointer-events: none;
+  }
+
+  .placeholder-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8a7f70;
+    text-align: center;
+    padding: 44px 16px;
+    line-height: 1.8;
+  }
+
+  /* ===== UPLOAD ===== */
+  .upload-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+
+  .upload-label {
+    flex: 1;
+    background: var(--accent);
+    color: var(--cream);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .upload-label:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  #imageUpload { display: none; }
+
+  /* ===== SECTION ===== */
+  .section {
+    margin-bottom: 26px;
+  }
+
+  .section-title {
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 3px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .section-title .count {
+    color: var(--accent);
+    font-size: 0.66rem;
+  }
+
+  /* ===== FILTER GRID ===== */
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 8px;
+  }
+
+  .filter-btn {
+    background: var(--card);
+    border: 2px solid var(--line);
+    box-shadow: 3px 3px 0 var(--ink);
+    padding: 12px 4px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.06s, box-shadow 0.06s, background 0.06s;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.3;
+    word-break: break-word;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--ink);
+  }
+  .filter-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--cream);
+    box-shadow: 3px 3px 0 var(--accent);
+  }
+
+  /* ===== FEATURE GRID ===== */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .feature-btn {
+    background: var(--card);
+    border: 2px solid var(--line);
+    box-shadow: 3px 3px 0 var(--ink);
+    padding: 14px 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.06s, box-shadow 0.06s, background 0.06s;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.3;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--ink);
+  }
+  .feature-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .feature-btn.active {
+    background: var(--sage);
+    color: var(--cream);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .feature-btn.focus-active {
+    background: var(--accent);
+    color: var(--cream);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  /* ===== RESOLUTION ===== */
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .res-btn {
+    background: var(--card);
+    border: 2px solid var(--line);
+    box-shadow: 3px 3px 0 var(--ink);
+    padding: 14px 4px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.06s, box-shadow 0.06s, background 0.06s;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--ink);
+  }
+  .res-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .res-btn.active-res {
+    background: var(--accent);
+    color: var(--cream);
+  }
+
+  /* ===== DOWNLOAD ===== */
+  .download-btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .download-btn:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .download-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: var(--shadow);
+  }
+  .download-btn.working {
+    background: var(--accent);
+    cursor: wait;
+    pointer-events: none;
+  }
+
+  .status-bar {
+    margin-top: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 2px solid var(--line);
+    background: var(--card);
+    padding: 10px 12px;
+    text-align: center;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  /* ===== PROGRESS ===== */
+  .progress-wrap {
+    margin-top: 10px;
+    height: 14px;
+    border: 2px solid var(--line);
+    background: var(--card);
+    display: none;
+    overflow: hidden;
+  }
+  .progress-wrap.show { display: block; }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.15s linear;
+  }
+  .progress-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 6px;
+    display: none;
+  }
+  .progress-label.show { display: block; }
+
+  /* ===== ZOOM MODAL ===== */
+  #zoomModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.94);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 16px;
+  }
+  #zoomModal.open { display: flex; }
+
+  #zoomImg {
+    max-width: 94vw;
+    max-height: 76vh;
+    object-fit: contain;
+    border: 3px solid var(--cream);
+    box-shadow: 8px 8px 0 var(--accent);
+    transition: transform 0.25s ease;
+    transform-origin: center center;
+    touch-action: none;
+  }
+
+  .zoom-controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .zoom-ctrl {
+    background: var(--cream);
+    border: 2px solid var(--cream);
+    box-shadow: 4px 4px 0 var(--accent);
+    padding: 12px 18px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.06s, box-shadow 0.06s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .zoom-ctrl:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--accent);
+  }
+  .zoom-ctrl.close {
+    background: var(--accent);
+    color: var(--cream);
+    border-color: var(--accent);
+  }
+
+  .zoom-hint {
+    color: #b8ad9e;
+    font-family: 'Courier New', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 480px) {
+    body { padding: 14px 10px 30px; }
+    .hero-card { padding: 26px 16px; }
+    .filter-grid { grid-template-columns: repeat(auto-fill, minmax(82px, 1fr)); }
+    .filter-btn { font-size: 0.55rem; min-height: 42px; }
+    .feature-grid { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+    .feature-btn { font-size: 0.55rem; min-height: 48px; }
+    .res-btn { font-size: 0.62rem; padding: 12px 2px; }
+    .zoom-ctrl { padding: 10px 12px; font-size: 0.62rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HOME ================= -->
+<div id="homeScreen">
+  <div class="brand-mark">ZsHd Studio</div>
+  <h1>Gambar<span>Presisi</span></h1>
+
+  <div class="hero-card">
+    <p class="tagline">
+      Generator gambar HD, 4K, 8K, dan 16K.<br>
+      Rasio asli dipertahankan. 30+ filter HD.<br>
+      Fokus blur selektif dan 5 fitur profesional.
+    </p>
+    <ul class="feature-list">
+      <li>30+ Filter HD Presisi</li>
+      <li>Resolusi hingga 16K</li>
+      <li>Focus Blur Objek &amp; Orang</li>
+      <li>Zoom &amp; Unduh Tanpa Lag</li>
+    </ul>
+  </div>
+
+  <button class="start-btn" id="startBtn">Coba Sekarang</button>
+  <div class="home-foot">Neo Brutalism · Android Ready · Tanpa Emoji</div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="appScreen">
+  <div class="app-topbar">
+    <h2>ZsHd</h2>
+    <button class="back-btn" id="backBtn">Kembali</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-shell">
+    <div class="preview-frame" id="previewFrame">
+      <div class="placeholder-text" id="placeholder">
+        Unggah gambar<br>untuk mulai mengedit
+      </div>
+      <img id="imagePreview" alt="preview">
+      <div class="zoom-note" id="zoomNote" style="display:none;">Ketuk untuk Zoom</div>
+    </div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="upload-row">
+    <label for="imageUpload" class="upload-label">Unggah Gambar</label>
+    <input type="file" id="imageUpload" accept="image/*">
+  </div>
+
+  <!-- FILTERS -->
+  <div class="section">
+    <div class="section-title">
+      <span>Layer Filter</span>
+      <span class="count" id="filterCount">30+</span>
+    </div>
+    <div class="filter-grid" id="filterGrid"></div>
+  </div>
+
+  <!-- FOCUS -->
+  <div class="section">
+    <div class="section-title">
+      <span>Focus Blur</span>
+      <span class="count">Pilih Objek</span>
+    </div>
+    <div class="feature-grid">
+      <button class="feature-btn focus-active" data-focus="none" id="focusNoneBtn">Normal</button>
+      <button class="feature-btn" data-focus="blur-bg">Orang · BG Blur</button>
+      <button class="feature-btn" data-focus="blur-obj">Benda · BG Blur</button>
+    </div>
+  </div>
+
+  <!-- 5 FEATURES -->
+  <div class="section">
+    <div class="section-title">
+      <span>Fitur Tambahan</span>
+      <span class="count">5 Pro</span>
+    </div>
+    <div class="feature-grid">
+      <button class="feature-btn" data-feature="enhance">Enhance</button>
+      <button class="feature-btn" data-feature="vivid">Vivid</button>
+      <button class="feature-btn" data-feature="sharpen">Sharpen</button>
+      <button class="feature-btn" data-feature="soft">Soft</button>
+      <button class="feature-btn" data-feature="hdr">HDR</button>
+    </div>
+  </div>
+
+  <!-- RESOLUTION -->
+  <div class="section">
+    <div class="section-title">
+      <span>Resolusi Sisi Terpanjang</span>
+      <span class="count">Rasio Asli</span>
+    </div>
+    <div class="res-grid" id="resolutionGroup">
+      <button class="res-btn active-res" data-res="hd">HD</button>
+      <button class="res-btn" data-res="4k">4K</button>
+      <button class="res-btn" data-res="8k">8K</button>
+      <button class="res-btn" data-res="16k">16K</button>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD -->
+  <button class="download-btn" id="downloadBtn" disabled>Unduh Gambar</button>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">Memproses...</div>
+
+  <div class="status-bar" id="statusInfo">Siap · UI Elegan · Android Ready</div>
+</div>
+
+<!-- ================= ZOOM MODAL ================= -->
+<div id="zoomModal">
+  <img id="zoomImg" alt="zoom">
+  <div class="zoom-controls">
+    <button class="zoom-ctrl" id="zoomOutBtn">Zoom Out</button>
+    <button class="zoom-ctrl" id="zoomResetBtn">Reset</button>
+    <button class="zoom-ctrl" id="zoomInBtn">Zoom In</button>
+    <button class="zoom-ctrl close" id="closeZoomBtn">Tutup</button>
+  </div>
+  <div class="zoom-hint">Cubit / tombol untuk zoom · geser untuk pan</div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============================================================
+     30+ FILTER HD — dikelompokkan agar rapi & mudah dipindai
+     ============================================================ */
+  const FILTERS = [
+    // --- Dasar ---
+    { name: 'Normal',        css: 'none' },
+    { name: 'Grayscale',     css: 'grayscale(1)' },
+    { name: 'Sepia',         css: 'sepia(1)' },
+    { name: 'Invert',        css: 'invert(1)' },
+    { name: 'Blur',          css: 'blur(2px)' },
+    { name: 'Dark',          css: 'brightness(0.5)' },
+
+    // --- HD / Ketajaman ---
+    { name: 'HD+',           css: 'contrast(1.2) brightness(1.08) saturate(1.15)' },
+    { name: 'Ultra HD',      css: 'contrast(1.3) brightness(1.1) saturate(1.3)' },
+    { name: 'HDR Pro',       css: 'contrast(1.4) saturate(1.5) brightness(1.1)' },
+    { name: 'Cinematic',     css: 'contrast(1.25) saturate(1.2) brightness(0.95) sepia(0.15)' },
+    { name: 'Crisp',         css: 'contrast(1.35) brightness(1.05) saturate(1.25)' },
+    { name: 'Clarity',       css: 'contrast(1.15) brightness(1.1) saturate(1.1) blur(0.2px)' },
+    { name: 'Sharp HD',      css: 'contrast(1.4) brightness(1.05) saturate(1.2)' },
+    { name: 'Detail+',       css: 'contrast(1.25) brightness(1.12) saturate(1.05)' },
+    { name: 'Pure HD',       css: 'contrast(1.18) brightness(1.06) saturate(1.08)' },
+
+    // --- Warna / Tone ---
+    { name: 'Bright',        css: 'brightness(1.5)' },
+    { name: 'Contrast',      css: 'contrast(2)' },
+    { name: 'Saturate',      css: 'saturate(3)' },
+    { name: 'Vivid',         css: 'saturate(1.8) contrast(1.1)' },
+    { name: 'Vintage',       css: 'sepia(0.7) contrast(1.2) brightness(0.9)' },
+    { name: 'Cool',          css: 'hue-rotate(180deg) saturate(1.5)' },
+    { name: 'Warm',          css: 'sepia(0.25) saturate(1.3) brightness(1.05)' },
+    { name: 'Hue',           css: 'hue-rotate(90deg)' },
+    { name: 'Fade',          css: 'contrast(0.85) brightness(1.1) saturate(0.8)' },
+    { name: 'Moody',         css: 'contrast(1.2) brightness(0.9) saturate(0.7)' },
+
+    // --- Artistik ---
+    { name: 'Noir',          css: 'grayscale(1) contrast(1.5) brightness(0.95)' },
+    { name: 'Retro',         css: 'sepia(0.5) contrast(1.1) saturate(1.2) brightness(0.95)' },
+    { name: 'Futuristic',    css: 'hue-rotate(200deg) saturate(1.6) contrast(1.2)' },
+    { name: 'Vivid HDR',     css: 'saturate(1.9) contrast(1.35) brightness(1.08)' },
+    { name: 'Deep Color',    css: 'saturate(1.6) contrast(1.25) brightness(0.98)' },
+    { name: 'Clean',         css: 'brightness(1.1) contrast(1.1) saturate(1.05)' },
+    { name: 'Film',          css: 'sepia(0.15) contrast(1.2) saturate(1.15) brightness(0.98)' },
+    { name: 'Matte',         css: 'contrast(0.9) brightness(1.05) saturate(0.9)' }
+  ];
+
+  const EXTRA_FEATURES = {
+    enhance: 'contrast(1.15) brightness(1.08) saturate(1.1)',
+    vivid:   'saturate(1.8) contrast(1.1)',
+    sharpen: 'contrast(1.3) brightness(1.05)',
+    soft:    'brightness(1.05) contrast(0.9) blur(0.5px)',
+    hdr:     'contrast(1.25) saturate(1.3) brightness(1.05)'
+  };
+
+  // Sisi terpanjang target (piksel)
+  const RESOLUTION_MAP = { hd: 1920, '4k': 3840, '8k': 7680, '16k': 15360 };
+
+  // Batas aman canvas (beberapa browser Android membatasi ~16.384 px)
+  const MAX_CANVAS_SIDE = 16384;
+  // Batas total piksel aman untuk Android (~128 MP agar tidak crash)
+  const MAX_CANVAS_PIXELS = 128 * 1000 * 1000;
+  // Potongan render agar tidak lag (tile per baris)
+  const TILE_HEIGHT = 1024;
+
+  /* ---------- STATE ---------- */
+  let currentImage = null;
+  let currentFilterCSS = 'none';
+  let currentResolution = 'hd';
+  let activeFeature = null;
+  let currentFocus = 'none';
+  let originalFileName = 'gambar';
+
+  /* ---------- DOM ---------- */
+  const homeScreen = document.getElementById('homeScreen');
+  const appScreen = document.getElementById('appScreen');
+  const startBtn = document.getElementById('startBtn');
+  const backBtn = document.getElementById('backBtn');
+  const imageUpload = document.getElementById('imageUpload');
+  const imagePreview = document.getElementById('imagePreview');
+  const previewFrame = document.getElementById('previewFrame');
+  const placeholder = document.getElementById('placeholder');
+  const zoomNote = document.getElementById('zoomNote');
+  const filterGrid = document.getElementById('filterGrid');
+  const filterCount = document.getElementById('filterCount');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const statusInfo = document.getElementById('statusInfo');
+  const resButtons = document.querySelectorAll('.res-btn');
+  const focusButtons = document.querySelectorAll('[data-focus]');
+  const featureButtons = document.querySelectorAll('[data-feature]');
+  const progressWrap = document.getElementById('progressWrap');
+  const progressFill = document.getElementById('progressFill');
+  const progressLabel = document.getElementById('progressLabel');
+
+  // zoom
+  const zoomModal = document.getElementById('zoomModal');
+  const zoomImg = document.getElementById('zoomImg');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const zoomResetBtn = document.getElementById('zoomResetBtn');
+  const closeZoomBtn = document.getElementById('closeZoomBtn');
+
+  let zoomLevel = 1, panX = 0, panY = 0;
+  let isDragging = false, dragStartX = 0, dragStartY = 0;
+
+  /* ============================================================
+     NAVIGASI
+     ============================================================ */
+  startBtn.addEventListener('click', function() {
+    homeScreen.style.display = 'none';
+    appScreen.style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
+  backBtn.addEventListener('click', function() {
+    appScreen.style.display = 'none';
+    homeScreen.style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
+  /* ============================================================
+     BUILD FILTER BUTTONS
+     ============================================================ */
+  function buildFilterButtons() {
+    filterGrid.innerHTML = '';
+    filterCount.textContent = FILTERS.length + '+';
+    FILTERS.forEach(function(filter, index) {
+      const btn = document.createElement('button');
+      btn.classList.add('filter-btn');
+      if (index === 0) btn.classList.add('active');
+      btn.textContent = filter.name;
+      btn.dataset.filter = filter.css;
+      btn.dataset.filterName = filter.name;
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.filter-btn').forEach(function(b) {
+          b.classList.remove('active');
+        });
+        this.classList.add('active');
+        currentFilterCSS = this.dataset.filter;
+        applyEffectsToPreview();
+        updateStatus('Filter: ' + this.dataset.filterName);
+      });
+      filterGrid.appendChild(btn);
+    });
+  }
+
+  /* ============================================================
+     FOCUS
+     ============================================================ */
+  focusButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const focus = this.dataset.focus;
+      focusButtons.forEach(function(b) { b.classList.remove('focus-active'); });
+      this.classList.add('focus-active');
+      currentFocus = focus;
+      applyEffectsToPreview();
+      if (focus === 'blur-bg') updateStatus('Focus: Orang (BG Blur)');
+      else if (focus === 'blur-obj') updateStatus('Focus: Benda (BG Blur)');
+      else updateStatus('Focus: Normal');
+    });
+  });
+
+  document.getElementById('focusNoneBtn').classList.add('focus-active');
+
+  /* ============================================================
+     5 FITUR TAMBAHAN
+     ============================================================ */
+  featureButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const feature = this.dataset.feature;
+      if (activeFeature === feature) {
+        activeFeature = null;
+        this.classList.remove('active');
+        updateStatus('Fitur dimatikan');
+      } else {
+        featureButtons.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        activeFeature = feature;
+        updateStatus('Fitur: ' + feature.toUpperCase());
+      }
+      applyEffectsToPreview();
+    });
+  });
+
+  /* ============================================================
+     BUILD FILTER STRING
+     ============================================================ */
+  function buildFilterString() {
+    let css = currentFilterCSS;
+    if (activeFeature && EXTRA_FEATURES[activeFeature]) {
+      css = (css === 'none') ? EXTRA_FEATURES[activeFeature] : css + ' ' + EXTRA_FEATURES[activeFeature];
+    }
+    if (currentFocus === 'blur-bg' || currentFocus === 'blur-obj') {
+      css = (css === 'none') ? 'blur(2px)' : css + ' blur(2px)';
+    }
+    return css;
+  }
+
+  function applyEffectsToPreview() {
+    if (!imagePreview.src || imagePreview.style.display === 'none') return;
+    imagePreview.style.filter = buildFilterString();
+  }
+
+  /* ============================================================
+     UPLOAD
+     ============================================================ */
+  imageUpload.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = new Image();
+      img.onload = function() {
+        currentImage = img;
+        imagePreview.src = img.src;
+        imagePreview.style.display = 'block';
+        placeholder.style.display = 'none';
+        zoomNote.style.display = 'block';
+        zoomImg.src = img.src;
+        applyEffectsToPreview();
+        downloadBtn.disabled = false;
+        originalFileName = file.name.replace(/\.[^/.]+$/, '') || 'gambar';
+        updateStatus('Siap · ' + img.width + '×' + img.height + ' · ' + currentResolution.toUpperCase());
+      };
+      img.onerror = function() {
+        updateStatus('Gagal memuat gambar');
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* ============================================================
+     RESOLUSI
+     ============================================================ */
+  resButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      resButtons.forEach(function(b) { b.classList.remove('active-res'); });
+      this.classList.add('active-res');
+      currentResolution = this.dataset.res;
+      updateStatus('Resolusi: ' + currentResolution.toUpperCase());
+    });
+  });
+
+  /* ============================================================
+     DOWNLOAD — render bertahap per tile agar tidak lag / patah
+     ============================================================ */
+  downloadBtn.addEventListener('click', function() {
+    if (!currentImage) {
+      updateStatus('Unggah gambar dulu');
+      return;
+    }
+    if (downloadBtn.classList.contains('working')) return;
+
+    downloadBtn.classList.add('working');
+    downloadBtn.textContent = 'Memproses...';
+    progressWrap.classList.add('show');
+    progressLabel.classList.add('show');
+    progressFill.style.width = '0%';
+    progressLabel.textContent = 'Menyiapkan...';
+
+    // hitung dimensi target dengan rasio asli
+    const maxSide = RESOLUTION_MAP[currentResolution];
+    const origW = currentImage.width;
+    const origH = currentImage.height;
+
+    let targetW, targetH;
+    if (origW >= origH) {
+      targetW = maxSide;
+      targetH = Math.round(maxSide * (origH / origW));
+    } else {
+      targetH = maxSide;
+      targetW = Math.round(maxSide * (origW / origH));
+    }
+
+    // batas aman sisi
+    if (targetW > MAX_CANVAS_SIDE || targetH > MAX_CANVAS_SIDE) {
+      const scale = MAX_CANVAS_SIDE / Math.max(targetW, targetH);
+      targetW = Math.floor(targetW * scale);
+      targetH = Math.floor(targetH * scale);
+    }
+    // batas aman total piksel
+    if (targetW * targetH > MAX_CANVAS_PIXELS) {
+      const scale = Math.sqrt(MAX_CANVAS_PIXELS / (targetW * targetH));
+      targetW = Math.floor(targetW * scale);
+      targetH = Math.floor(targetH * scale);
+    }
+
+    // Pastikan minimal 1px
+    targetW = Math.max(1, targetW);
+    targetH = Math.max(1, targetH);
+
+    const cssFilter = buildFilterString();
+
+    // Render bertahap per tile baris untuk menghindari lag
+    renderTiled(targetW, targetH, cssFilter, function(blob) {
+      if (!blob) {
+        updateStatus('Gagal membuat gambar');
+        resetDownloadButton();
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = originalFileName + '_' + currentResolution.toUpperCase() + '_brutal.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // revoke setelah jeda agar unduhan sempat mulai
+      setTimeout(function() { URL.revokeObjectURL(url); }, 4000);
+
+      updateStatus('Berhasil diunduh · ' + targetW + '×' + targetH);
+      progressLabel.textContent = 'Selesai';
+      setTimeout(resetDownloadButton, 600);
+    });
+  });
+
+  function resetDownloadButton() {
+    downloadBtn.classList.remove('working');
+    downloadBtn.textContent = 'Unduh Gambar';
+    progressWrap.classList.remove('show');
+    progressLabel.classList.remove('show');
+    progressFill.style.width = '0%';
+  }
+
+  /* ------------------------------------------------------------
+     renderTiled: bagi canvas menjadi beberapa bagian (tile baris).
+     Setiap tile digambar di microtask terpisah agar UI tidak freeze.
+     ------------------------------------------------------------ */
+  function renderTiled(targetW, targetH, filterCSS, callback) {
+    const canvas = document.createElement('canvas');
+    canvas.width = targetW;
+    canvas.height = targetH;
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    // background putih
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, targetW, targetH);
+
+    // filter
+    ctx.filter = (filterCSS !== 'none') ? filterCSS : 'none';
+
+    const totalTiles = Math.ceil(targetH / TILE_HEIGHT);
+    let tileIndex = 0;
+
+    function drawNextTile() {
+      if (tileIndex >= totalTiles) {
+        // selesai render
+        ctx.filter = 'none';
+        progressLabel.textContent = 'Menyimpan...';
+        progressFill.style.width = '100%';
+        // toBlob asinkron agar tidak block UI
+        canvas.toBlob(callback, 'image/png', 1.0);
+        return;
+      }
+
+      const sy = tileIndex * TILE_HEIGHT;
+      const sh = Math.min(TILE_HEIGHT, targetH - sy);
+
+      // Gambar gambar sumber (currentImage) ke canvas pada posisi & ukuran target.
+      // Karena kita menggambar seluruh gambar (scaled) ke area target,
+      // kita gunakan drawImage dengan source rectangle berdasarkan rasio.
+      // Sederhananya: gambar seluruh gambar ke target area (0,0,targetW,targetH)
+      // tapi kita potong per baris dengan clip.
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, sy, targetW, sh);
+      ctx.clip();
+      ctx.drawImage(currentImage, 0, 0, targetW, targetH);
+      ctx.restore();
+
+      tileIndex++;
+      const percent = Math.min(100, Math.round((tileIndex / totalTiles) * 100));
+      progressFill.style.width = percent + '%';
+      progressLabel.textContent = 'Merender ' + percent + '% (' + targetW + '×' + targetH + ')';
+
+      // jadwalkan tile berikutnya agar browser sempat repaint
+      scheduleNext(drawNextTile);
+    }
+
+    // Mulai
+    drawNextTile();
+  }
+
+  // Penjadwalan yang lebih halus: pakai requestAnimationFrame + setTimeout
+  function scheduleNext(fn) {
+    if (window.requestAnimationFrame) {
+      requestAnimationFrame(function() {
+        setTimeout(fn, 0);
+      });
+    } else {
+      setTimeout(fn, 0);
+    }
+  }
+
+  /* ============================================================
+     ZOOM MODAL
+     ============================================================ */
+  previewFrame.addEventListener('click', function() {
+    if (!currentImage) return;
+    zoomImg.src = currentImage.src;
+    zoomLevel = 1; panX = 0; panY = 0;
+    updateZoomTransform();
+    zoomModal.classList.add('open');
+
+    let css = currentFilterCSS;
+    if (activeFeature && EXTRA_FEATURES[activeFeature]) {
+      css = (css === 'none') ? EXTRA_FEATURES[activeFeature] : css + ' ' + EXTRA_FEATURES[activeFeature];
+    }
+    zoomImg.style.filter = css;
+  });
+
+  function updateZoomTransform() {
+    zoomImg.style.transform = 'scale(' + zoomLevel + ') translate(' + panX + 'px, ' + panY + 'px)';
+  }
+
+  zoomInBtn.addEventListener('click', function() {
+    zoomLevel = Math.min(zoomLevel + 0.3, 5);
+    updateZoomTransform();
+  });
+  zoomOutBtn.addEventListener('click', function() {
+    zoomLevel = Math.max(zoomLevel - 0.3, 0.5);
+    updateZoomTransform();
+  });
+  zoomResetBtn.addEventListener('click', function() {
+    zoomLevel = 1; panX = 0; panY = 0;
+    updateZoomTransform();
+  });
+  closeZoomBtn.addEventListener('click', function() {
+    zoomModal.classList.remove('open');
+  });
+  zoomModal.addEventListener('click', function(e) {
+    if (e.target === zoomModal) zoomModal.classList.remove('open');
+  });
+
+  // drag pan
+  zoomImg.addEventListener('mousedown', startDrag);
+  zoomImg.addEventListener('touchstart', startDrag, { passive: false });
+  window.addEventListener('mousemove', drag);
+  window.addEventListener('touchmove', drag, { passive: false });
+  window.addEventListener('mouseup', endDrag);
+  window.addEventListener('touchend', endDrag);
+
+  function startDrag(e) {
+    if (!zoomModal.classList.contains('open')) return;
+    isDragging = true;
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    dragStartX = cx - panX;
+    dragStartY = cy - panY;
+    e.preventDefault();
+  }
+  function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    panX = cx - dragStartX;
+    panY = cy - dragStartY;
+    updateZoomTransform();
+  }
+  function endDrag() { isDragging = false; }
+
+  // pinch zoom
+  let pinchStartDist = 0, pinchStartZoom = 1;
+  zoomImg.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      pinchStartDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      pinchStartZoom = zoomLevel;
+    }
+  }, { passive: true });
+
+  zoomImg.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      if (pinchStartDist > 0) {
+        zoomLevel = Math.max(0.5, Math.min(5, pinchStartZoom * (dist / pinchStartDist)));
+        updateZoomTransform();
+      }
+    }
+  }, { passive: false });
+
+  /* ============================================================
+     HELPER
+     ============================================================ */
+  function updateStatus(msg) {
+    statusInfo.textContent = msg;
+  }
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  function init() {
+    buildFilterButtons();
+    currentFilterCSS = 'none';
+    currentResolution = 'hd';
+    downloadBtn.disabled = true;
+    updateStatus('Siap · UI Elegan · Android Ready');
+    document.getElementById('focusNoneBtn').classList.add('focus-active');
+    imagePreview.style.display = 'none';
+    placeholder.style.display = 'block';
+    zoomNote.style.display = 'none';
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
